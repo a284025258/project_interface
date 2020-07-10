@@ -11,6 +11,7 @@ from common.config import my_config
 from common.text_replace import data_replace
 from faker import Faker
 
+
 @ddt
 class LoginTestCase(unittest.TestCase):
     """登录测试用例类"""
@@ -37,46 +38,47 @@ class LoginTestCase(unittest.TestCase):
         cls.pdbc.close()
 
     '''@data读取数据，有多少条数据，生成多少条测试用例'''
+
     @data(*cases)
     def test_login_case(self, case):
         """登录接口测试用例"""
         # 准备测试用例数据
-        method = case.method
         url = my_config.get('url', 'url') + case.url
-        expected = eval(case.expected)
-        # 随机生成一个手机号
-        phone = self.random_phone()
-        # 替换用例动态参数
-        param = eval(data_replace(case.param).replace('*random_phone*', phone))
+        # 随机生成一个 username
+        username = self.random_username()
+        # 替换用例随机生成的 username
+        param = eval(data_replace(case.param).replace('*username*', username))
         # 发送请求接口，获取结果
         log.info(f'正在请求地址：{url}')
-        response = self.http_request.request(url=url, method=method, data=param)
+        response = self.http_request.request(url=url, method=case.method, data=param)
         result = response.json()
         # 断言预期和实际结果
         row = case.case_id + 1
         try:
-            self.assertEqual(expected, result)
-            if case.check_sql is not None:
-                db_result = self.pdbc.find_count(case.check_sql)
+            self.assertEqual(case.expected_code, response.status_code)
+            if response.status_code != 201:
+                self.assertEqual(eval(case.expected_text), result)
+            if case.check_sql:
+                db_result = self.pdbc.find_count(data_replace(case.check_sql))
                 self.assertEqual(1, db_result)
         except AssertionError as e:
             print('该用例执行未通过')
-            self.read_excel.write_data(row=row, column=9, value='未通过')
-            print(f'预期结果：{expected}')
-            print(f'实际结果：{result}')
+            self.read_excel.write_data(row=row, column=10, value='未通过')
+            print(f'预期结果：{case.expected_code}')
+            print(f'实际结果：{response.status_code}')
             log.error(e)
             log.info('[{case.title}] --> 该用例执行未通过')
             raise e
         else:
             print('该用例执行通过')
-            self.read_excel.write_data(row=row, column=9, value='通过')
-            print(f'预期结果：{expected}')
-            print(f'实际结果：{result}')
+            self.read_excel.write_data(row=row, column=10, value='通过')
+            print(f'预期结果：{case.expected_code}')
+            print(f'实际结果：{response.status_code}')
             log.info(f'[{case.title}] --> 该用例执行通过')
 
-    def random_phone(self):
-        """随机生成一个手机号"""
-        phone = self.fake.phone_number()
-        if self.pdbc.find_count(f"SELECT * FROM member WHERE MobilePhone = {phone}"):
-            phone = self.random_phone()
-        return phone
+    def random_username(self):
+        """随机生成一个未注册的 6位 username """
+        username = self.fake.user_name().ljust(6, '0')
+        if self.pdbc.find_count(f"SELECT id FROM auth_user WHERE username = '{username}'"):
+            phone = self.random_username()
+        return username

@@ -3,6 +3,8 @@ from common.my_logger import log
 from common.HTMLTestRunner import HTMLTestRunner
 from common.constant import CASES_DIR, REPORTS_DIR
 import testcases.test_register as test_register
+import testcases.test_login as test_login
+import testcases.test_add_project as test_add_project
 import os
 import time
 
@@ -16,6 +18,8 @@ loader = unittest.TestLoader()
 # suite.addTest(loader.discover(CASES_DIR))
 # 从模块中加载测试用例
 suite.addTest(loader.loadTestsFromModule(test_register))
+suite.addTest(loader.loadTestsFromModule(test_login))
+suite.addTest(loader.loadTestsFromModule(test_add_project))
 # HTMLTestRunner 生成测试报告
 # 时间戳
 name = time.strftime("[%Y-%m-%d] [%H-%M-%S]", time.localtime())+' report.html'

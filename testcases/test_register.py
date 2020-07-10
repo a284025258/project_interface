@@ -66,18 +66,24 @@ class RegisterTestCase(unittest.TestCase):
                 db_result = self.pdbc.find_count(case.check_sql.replace('*username*', username))
                 self.assertEqual(1, db_result)
         except AssertionError as e:
+            print('该用例执行未通过')
             # 将测试结果写回 Excel
             self.read_excel.write_data(row=row, column=10, value='未通过')
+            print(f'预期结果：{case.expected_code}')
+            print(f'实际结果：{response.status_code}')
             log.error(e)
             log.info('[{case.title}] --> 该用例执行未通过')
             raise e
         else:
+            print('该用例执行通过')
             # 将测试结果写回 Excel
             self.read_excel.write_data(row=row, column=10, value='通过')
+            print(f'预期结果：{case.expected_code}')
+            print(f'实际结果：{response.status_code}')
             log.info(f'[{case.title}] --> 该用例执行通过')
 
     def random_username(self):
-        """随机生成一个未注册的 8位 username """
+        """随机生成一个未注册的 6位 username """
         username = self.fake.user_name().ljust(6, '0')
         if self.pdbc.find_count(f"SELECT id FROM auth_user WHERE username = '{username}'"):
             phone = self.random_username()
