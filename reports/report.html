@@ -116,18 +116,18 @@ function html_escape(s) {
 <div class='heading'>
 <h1 style="font-family: Microsoft YaHei">测试报告</h1>
 <p class='attribute'><strong>测试人员 : </strong> 石高林</p>
-<p class='attribute'><strong>开始时间 : </strong> 2020-07-09 17:22:28</p>
-<p class='attribute'><strong>合计耗时 : </strong> 0:00:07.901584</p>
-<p class='attribute'><strong>测试结果 : </strong> 共 17，通过 17，通过率= 100.00%</p>
+<p class='attribute'><strong>开始时间 : </strong> 2020-07-10 13:59:48</p>
+<p class='attribute'><strong>合计耗时 : </strong> 0:00:05.540694</p>
+<p class='attribute'><strong>测试结果 : </strong> 共 17，通过 16，失败 1，通过率= 94.12%</p>
 
 <p class='description'>日常发布测试</p>
 </div>
 
 
 <p id='show_detail_line'>
-<a class="btn btn-primary" href='javascript:showCase(0)'>概要{ 100.00% }</a>
-<a class="btn btn-danger" href='javascript:showCase(1)'>失败{ 0 }</a>
-<a class="btn btn-success" href='javascript:showCase(2)'>通过{ 17 }</a>
+<a class="btn btn-primary" href='javascript:showCase(0)'>概要{ 94.12% }</a>
+<a class="btn btn-danger" href='javascript:showCase(1)'>失败{ 1 }</a>
+<a class="btn btn-success" href='javascript:showCase(2)'>通过{ 16 }</a>
 <a class="btn btn-info" href='javascript:showCase(3)'>所有{ 17 }</a>
 </p>
 <table id='result_table' class="table table-condensed table-bordered table-hover">
@@ -148,11 +148,11 @@ function html_escape(s) {
     <td>详细</td>
 </tr>
 
-<tr class='passClass warning'>
+<tr class='failClass warning'>
     <td>testcases.test_register.RegisterTestCase: 注册测试用例类</td>
     <td class="text-center">17</td>
-    <td class="text-center">17</td>
-    <td class="text-center">0</td>
+    <td class="text-center">16</td>
+    <td class="text-center">1</td>
     <td class="text-center">0</td>
     <td class="text-center"><a href="javascript:showClassDetail('c1',17)" class="detail" id='c1'>详细</a></td>
 </tr>
@@ -182,9 +182,30 @@ function html_escape(s) {
     <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
 </tr>
 
-<tr id='pt1_6' class='hiddenRow'>
-    <td class='passCase'><div class='testcases'>test_register_case_06: 用户名刚好20位</div></td>
-    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+<tr id='ft1_6' class='none'>
+    <td class='failCase'><div class='testcases'>test_register_case_06: 用户名刚好20位</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft1_6' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft1_6'>失败</button>
+    <div id='div_ft1_6' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft1_6' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft1_6'>失败</button>
+    <div id='div_ft1_6' class="collapse in">
+    <pre>
+    
+ft1_6: Traceback (most recent call last):
+  File "D:\PycharmProjects\project_interface\lib\ddt.py", line 182, in wrapper
+    return func(self, *args, **kwargs)
+  File "D:\PycharmProjects\project_interface\testcases\test_register.py", line 73, in test_register_case
+    raise e
+  File "D:\PycharmProjects\project_interface\testcases\test_register.py", line 60, in test_register_case
+    self.assertEqual(case.expected_code, response.status_code)
+AssertionError: 201 != 400
+
+
+    </pre>
+    </div>
+    </td>
 </tr>
 
 <tr id='pt1_7' class='hiddenRow'>
@@ -245,10 +266,10 @@ function html_escape(s) {
 <tr id='total_row' class="text-center active">
     <td>总计</td>
     <td>17</td>
-    <td>17</td>
+    <td>16</td>
+    <td>1</td>
     <td>0</td>
-    <td>0</td>
-    <td>通过率：100.00%</td>
+    <td>通过率：94.12%</td>
 </tr>
 </table>
 

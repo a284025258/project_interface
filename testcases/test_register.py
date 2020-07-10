@@ -78,7 +78,7 @@ class RegisterTestCase(unittest.TestCase):
 
     def random_username(self):
         """随机生成一个未注册的 8位 username """
-        username = self.fake.user_name().ljust(8, '0')
+        username = self.fake.user_name().ljust(6, '0')
         if self.pdbc.find_count(f"SELECT id FROM auth_user WHERE username = '{username}'"):
             phone = self.random_username()
         return username
