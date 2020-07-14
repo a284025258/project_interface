@@ -56,7 +56,7 @@ class LoginTestCase(unittest.TestCase):
         row = case.case_id + 1
         try:
             self.assertEqual(case.expected_code, response.status_code)
-            if response.status_code != 201:
+            if response.status_code != 200:
                 self.assertEqual(eval(case.expected_text), result)
             if case.check_sql:
                 db_result = self.pdbc.find_count(data_replace(case.check_sql))

@@ -86,12 +86,12 @@ class RegisterTestCase(unittest.TestCase):
         """随机生成一个未注册的 6位 username """
         username = self.fake.user_name().ljust(6, '0')
         if self.pdbc.find_count(f"SELECT id FROM auth_user WHERE username = '{username}'"):
-            phone = self.random_username()
+            username = self.random_username()
         return username
 
     def random_email(self):
         """随机生成一个未注册的 email """
         email = self.fake.email()
         if self.pdbc.find_count(f"SELECT id FROM auth_user WHERE email = '{email}'"):
-            phone = self.random_email()
+            email = self.random_email()
         return email
